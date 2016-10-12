@@ -4,7 +4,7 @@
 = form_tag movies_path, :method => :get, :id => 'ratings_form' do
   = hidden_field_tag "title_sort", true if @title_header
   = hidden_field_tag ":release_date_sort", true if @date_header
-  Include: 
+  Include:
   - @all_ratings.each do |rating|
     = rating
     = check_box_tag "ratings[#{rating}]", 1, @selected_ratings.include?(rating), :id => "ratings_#{rating}"
@@ -20,9 +20,13 @@
   %tbody
     - @movies.each do |movie|
       %tr
-        %td= movie.title 
+        %td= movie.title
         %td= movie.rating
         %td= movie.release_date
         %td= link_to "More about #{movie.title}", movie_path(movie)
 
+= form_tag movies_search_tmdb_path, :method => :post do
+  = label_tag :search_terms, 'Search for movie titles containing:'
+  = text_field_tag :search_terms
+  = submit_tag 'Search TMDb'
 = link_to 'Add new movie', new_movie_path

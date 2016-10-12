@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-  
+
   def index
     sort = params[:sort] || session[:sort]
     case sort
@@ -20,11 +20,11 @@ class MoviesController < ApplicationController
     end
     @all_ratings = Movie.all_ratings
     @selected_ratings = params[:ratings] || session[:ratings] || {}
-    
+
     if @selected_ratings == {}
       @selected_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
-    
+
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort
       session[:ratings] = @selected_ratings
@@ -60,8 +60,13 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
-  
+
   def search_tmdb
+    @search_terms = params[:search_terms]
+    if @search_terms.blank?
+      flash[:alert] = "Invalid search terms"
+      redirect_to movies_path and return
+    end
     @movies=Movie.find_in_tmdb(params[:search_terms])
   end
 
