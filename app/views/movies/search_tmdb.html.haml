@@ -1,5 +1,5 @@
 -#  This file is app/views/movies/search_tmdb.html.haml
-%h1= "The following movies containing #{@search_terms} were found on TMDb"
+%h1= "The following movies containing '#{@search_terms}' were found on TMDb"
 
 = form_tag movies_add_tmdb_path, :method => :post do
   %table#movies
